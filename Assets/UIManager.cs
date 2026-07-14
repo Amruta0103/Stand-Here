@@ -7,6 +7,9 @@ public class UIManager : MonoBehaviour
     public GameObject endGamePanel;
     public TextMeshProUGUI resultText;
     public TextMeshProUGUI timerText;
+    public AudioSource audioSource;
+    public AudioClip pepSound1;
+    public AudioClip sinisterLaughter;
 
     public void Start()
     {
@@ -25,6 +28,7 @@ public class UIManager : MonoBehaviour
     public void ShowLoss()
     {
         endGamePanel.SetActive(true);
+        audioSource.PlayOneShot(sinisterLaughter);
         resultText.text = "OH NO! YOU LOST!";
     }
 

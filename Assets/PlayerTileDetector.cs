@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerTileDetector : MonoBehaviour
 {
     public Tile currentTile;
-    public float detectionRadius = 0.35f;
+    public float detectionRadius = 0.28f;
 
     private Tile[] tiles;
 
@@ -14,13 +14,7 @@ public class PlayerTileDetector : MonoBehaviour
 
 void Update()
 {
-    if (tiles == null)
-    {
-        Debug.LogError("Tiles array is NULL!");
-        return;
-    }
-
-    currentTile = null;
+    bool foundTile = false;
 
     foreach (Tile tile in tiles)
     {
@@ -30,12 +24,16 @@ void Update()
         Vector3 offset = transform.position - tile.transform.position;
         offset.y = 0;
 
-        if (Mathf.Abs(offset.x) <= 0.4f &&
-            Mathf.Abs(offset.z) <= 0.4f)
+        if (Mathf.Abs(offset.x) <= detectionRadius &&
+            Mathf.Abs(offset.z) <= detectionRadius)
         {
             currentTile = tile;
+            foundTile = true;
             break;
         }
     }
+
+    if (!foundTile)
+        currentTile = null;
 }
 }
