@@ -59,21 +59,27 @@ public class GameManager : MonoBehaviour
 
     void StartRound()
     {
-        Time.timeScale = 1f;
+      Time.timeScale = 1f;
 
-        timer = roundTime;
-        uiManager.UpdateTimer(timer);
+      timer = roundTime;
+      uiManager.UpdateTimer(timer);
 
-        foreach (Tile tile in tiles)
-        {
-            if (Random.value < 0.7f)
-                tile.SetState(Tile.TileState.Red);
-            else
-                tile.SetState(Tile.TileState.Black);
-        }
+      foreach (Tile tile in tiles)
+      {
+          if (Random.value < 0.7f)
+              tile.SetState(Tile.TileState.Red);
+          else
+              tile.SetState(Tile.TileState.Black);
+      }
 
-        int safeIndex = Random.Range(0, tiles.Length);
+      Tile safeTile;
 
-        tiles[safeIndex].SetState(Tile.TileState.Green);
+      do
+      {
+        safeTile = tiles[Random.Range(0, tiles.Length)];
+      }
+      while (safeTile.name == "TileR3_2");
+
+      safeTile.SetState(Tile.TileState.Green);
     }
 }
