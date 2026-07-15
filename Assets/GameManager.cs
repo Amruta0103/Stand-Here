@@ -9,24 +9,46 @@ public class GameManager : MonoBehaviour
     public float detectionRadius = 0.28f;
 
     private float timer;
+    public GameObject startPanel;
     private bool gameOver = false;
 
     public PlayerTileDetector player;
     private UIManager uiManager;
+    private bool gameStarted = false;
+    private static bool skipStartScreen = false;
 
     void Start()
     {
         tiles = FindObjectsByType<Tile>();
         uiManager = FindAnyObjectByType<UIManager>();
         player = FindAnyObjectByType<PlayerTileDetector>();
-        StartRound();
+
+        Time.timeScale = 0f;
+
+
+        if (skipStartScreen)
+        {
+            startPanel.SetActive(false);
+            gameStarted = true;
+            StartRound();
+        }
+        else
+        {
+            Time.timeScale = 0f;
+            startPanel.SetActive(true);
+        }
     }
 
     void Update()
     {
+        if (!gameStarted)
+        {
+            return;
+        }
+
         if (gameOver)
         {
-          return;
+            return;
         }
 
         timer -= Time.deltaTime;
@@ -82,4 +104,17 @@ public class GameManager : MonoBehaviour
 
       safeTile.SetState(Tile.TileState.Green);
     }
+
+   public void StartGame()
+{
+    Debug.Log("Play button clicked!");
+    skipStartScreen = true;
+
+    startPanel.SetActive(false);
+
+    gameStarted = true;
+    gameOver = false;
+
+    StartRound();
+}
 }
